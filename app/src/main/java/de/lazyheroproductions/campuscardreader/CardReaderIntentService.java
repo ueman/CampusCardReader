@@ -23,7 +23,6 @@ import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -64,14 +63,13 @@ public class CardReaderIntentService extends IntentService {
             isodep.close();
         }catch(IOException e) {
             Log.w(this.getClass().getName(), "Failed to receive data");
-            Toast.makeText(this, "Failed to read the nfc tag", Toast.LENGTH_SHORT).show();
         }
         sendBroadcast();
     }
 
     private void sendBroadcast(){
         Intent intent = new Intent(CardReaderIntentService.CAMPUS_CARD_INTENT);
-        if(creditBytes[0]==0&&lastTransactionBytes[0]==0){
+        if(creditBytes!= null && lastTransactionBytes != null && creditBytes[0] == 0 && lastTransactionBytes[0] == 0){
             intent.putExtra(CardReaderIntentService.CREDIT, formatCredit(creditBytes));
             intent.putExtra(CardReaderIntentService.LAST_TRANSACTION, formatTransaction(lastTransactionBytes));
             intent.putExtra(CardReaderIntentService.ERROR, false);

@@ -30,8 +30,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
+
+    private TextView creditTextView;
+    private TextView transactionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,8 @@ public class MainActivity extends Activity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter(CardReaderIntentService.CAMPUS_CARD_INTENT));
         onNewIntent(getIntent());
+        creditTextView = (TextView)findViewById(R.id.credit);
+        transactionTextView = (TextView)findViewById(R.id.last_transaction);
     }
 
 
@@ -69,9 +75,9 @@ public class MainActivity extends Activity {
     public void onNewIntent(Intent intent){
         Log.i(this.getClass().getName(), "received intent");
         if(intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            Intent intentZwei = new Intent(getApplicationContext(), CardReaderIntentService.class);
-            intentZwei.putExtra(NfcAdapter.EXTRA_TAG, intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
-            startService(intentZwei);
+            Intent newIntent = new Intent(getApplicationContext(), CardReaderIntentService.class);
+            newIntent.putExtra(NfcAdapter.EXTRA_TAG, intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
+            startService(newIntent);
         }
     }
 
@@ -79,8 +85,13 @@ public class MainActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            ((TextView)findViewById(R.id.hello_world)).setText(intent.getStringExtra(CardReaderIntentService.CREDIT)+" "+intent.getStringExtra(CardReaderIntentService.LAST_TRANSACTION));
-            Log.d(this.getClass().getName(), "Got message");
+            if(!intent.getBooleanExtra(CardReaderIntentService.ERROR,true)) {
+                creditTextView.setText(creditTextView.getText() + " " + intent.getStringExtra(CardReaderIntentService.CREDIT));
+                transactionTextView.setText(transactionTextView.getText() + " " + intent.getStringExtra(CardReaderIntentService.LAST_TRANSACTION));
+                Log.d(this.getClass().getName(), "Got message");
+            }else{
+                Toast.makeText(getApplicationContext(), "Failed to read the nfc tag", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 

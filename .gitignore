@@ -27,3 +27,5 @@ build/
 
 # Java class files
 *.class
+
+*.db

@@ -13,7 +13,7 @@
 <!--    limitations under the License.                                         -->
 
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
@@ -22,12 +22,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" >
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
 
     <TextView
-        android:text="@string/hello_world"
-        android:id="@+id/hello_world"
+        android:text="@string/credit"
+        android:id="@+id/credit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:text="@string/last_transaction"
+        android:id="@+id/last_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</RelativeLayout>
+</LinearLayout>
