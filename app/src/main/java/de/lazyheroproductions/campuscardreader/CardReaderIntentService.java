@@ -33,11 +33,14 @@ public class CardReaderIntentService extends IntentService {
     public static final String CREDIT = "credit";
     public static final String LAST_TRANSACTION = "lastTransaction";
     public static final String ERROR = "error";
+    private static final String FORMAT_TYPE = "%.2f\u20AC"; // two numbers after the comma and a €
 
-    private byte[] selectAid = {(byte)90, (byte)95, (byte)-124, (byte)21};      //select application id command
-    private byte[] creditPayload = {(byte)108, (byte)1};                        //select credit file
-    private byte[] transactionPayload = {(byte)-11, (byte)1};                   //select last transaction file
+    // commands which needs to be send to the nfc tag
+    private final byte[] selectAid = {(byte)90, (byte)95, (byte)-124, (byte)21};      //select application command
+    private final byte[] creditPayload = {(byte)108, (byte)1};                        //select credit file
+    private final byte[] transactionPayload = {(byte)-11, (byte)1};                   //select last transaction file
 
+    // this are the responses of the nfc tag
     private byte[] resultOk;
     private byte[] creditBytes;
     private byte[] lastTransactionBytes;
@@ -48,44 +51,65 @@ public class CardReaderIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(this.getClass().getName(), "CardReaderService started");
+        if(BuildConfig.DEBUG) {
+            Log.i(this.getClass().getName(), "CardReaderService started");
+        }
+
+        // get an instance of the nfc tag to communicate
         IsoDep isodep = IsoDep.get((Tag)intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
         try {
+            // connect to the nfc tag
             isodep.connect();
+            // select application which contains the credit and last transaction
             resultOk = isodep.transceive(selectAid);
             if(resultOk[0]==0) {
+                // get the credit
                 creditBytes = isodep.transceive(creditPayload);
-                Log.i(this.getClass().getName(), creditBytes.toString());
+                // get the last transaction
                 lastTransactionBytes = isodep.transceive(transactionPayload);
             }else{
-                Log.w(this.getClass().getName(),"Wrong result");
+                if(BuildConfig.DEBUG) {
+                    Log.w(this.getClass().getName(), "Wrong result: "+arrayToString(resultOk));
+                }
             }
             isodep.close();
         }catch(IOException e) {
-            Log.w(this.getClass().getName(), "Failed to receive data");
+            if(BuildConfig.DEBUG) {
+                Log.e(this.getClass().getName(), e.getMessage());
+            }
         }
+
+        // send the gathered data back to the activity
         sendBroadcast();
     }
 
     private void sendBroadcast(){
-        Intent intent = new Intent(CardReaderIntentService.CAMPUS_CARD_INTENT);
+        Intent intent = new Intent(CAMPUS_CARD_INTENT);
         if(creditBytes!= null && lastTransactionBytes != null && creditBytes[0] == 0 && lastTransactionBytes[0] == 0){
-            intent.putExtra(CardReaderIntentService.CREDIT, formatCredit(creditBytes));
-            intent.putExtra(CardReaderIntentService.LAST_TRANSACTION, formatTransaction(lastTransactionBytes));
-            intent.putExtra(CardReaderIntentService.ERROR, false);
+            intent.putExtra(CREDIT, formatCredit(creditBytes));
+            intent.putExtra(LAST_TRANSACTION, formatTransaction(lastTransactionBytes));
+            intent.putExtra(ERROR, false);
         }else{
-            intent.putExtra(CardReaderIntentService.ERROR, true);
+            intent.putExtra(ERROR, true);
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private String formatCredit(byte[] array){
         double balanceDouble = (double)(((0xff & array[4]) << 24) + ((0xff & array[3]) << 16) + ((0xff & array[2]) << 8) + (0xff & array[1])) / 1000D;
-        return String.format("%.2f\u20AC", balanceDouble);
+        return String.format(FORMAT_TYPE, balanceDouble);
     }
 
     private String formatTransaction(byte[] array){
         double transactionDouble = (double)(((0xff & array[16]) << 24) + ((0xff & array[15]) << 16) + ((0xff & array[14]) << 8) + (0xff & array[13])) / 1000D;
-        return String.format("%.2f\u20AC", transactionDouble);
+        return String.format(FORMAT_TYPE, transactionDouble);
+    }
+
+    private String arrayToString(byte[] array){
+        String s = "";
+        for(int i= 0; i< array.length;i++){
+            s += array[i]+" ";
+        }
+        return s;
     }
 }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--    Copyright 2014 Jonas Uekoetter                                         -->
 
 <!--    Licensed under the Apache License,Version2.0(the"License");            -->
@@ -13,16 +12,18 @@
 <!--    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied.-->
 <!--    See the License for the specific language governing permissions and    -->
 <!--    limitations under the License.                                         -->
+<resources>
 
+    <string name="app_name">CampusCardReader</string>
+    <string name="hello_world">Hallo Welt!</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_about">Über diese App</string>
+    <string name="credit">Guthaben:</string>
+    <string name="last_transaction">Letzte Transaktion:</string>
+    <string name="failed_to_read_tag">Lesen der CampusCard ist fehlgeschlagen</string>
+    <string name="new_card_was_read">CampusCard wurde gelesen</string>
+    <string name="about_text">Diese App ist Open Source. Klick auf den unteren Knopf um den Quelltext zu sehen.</string>
+    <string name="see_source">Quelltext anschauen</string>
+    <string name="rate_this_app">Bewerte diese App</string>
 
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <tech-list>
-        <tech>android.nfc.tech.IsoDep</tech>
-    </tech-list>
-    <tech-list>
-        <tech>android.nfc.tech.NfcA</tech>
-    </tech-list>
-    <tech-list>
-        <tech>android.nfc.tech.NdefFormatable</tech>
-    </tech-list>
 </resources>
