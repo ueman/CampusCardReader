@@ -22,12 +22,10 @@ import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 
 public class AboutActivity extends ActionBarActivity {
-    private static final String PLAY_STORE_URI = "market://details?id=";
-    private static final String WEB_PLAY_STORE_URL = "http://play.google.com/store/apps/details?id=";
-    private static final String PROJECT_HOME = "https://github.com/ueman/CampusCardReader";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +35,30 @@ public class AboutActivity extends ActionBarActivity {
         findViewById(R.id.see_source_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PROJECT_HOME)));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.PROJECT_HOME)));
             }
         });
         // set an on click listener for the rate_button
-        findViewById(R.id.rate_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.about_screen_rate_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // send the user to the play store or otherwise to the play web store
-                Uri uri = Uri.parse(PLAY_STORE_URI + getPackageName());
+                Uri uri = Uri.parse(Config.PLAY_STORE_URI + getPackageName());
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                 try {
                     startActivity(goToMarket);
                 } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(WEB_PLAY_STORE_URL + getPackageName())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.WEB_PLAY_STORE_URL + getPackageName())));
                 }
             }
         });
+        findViewById(R.id.visit_website_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.AUTHOR_WEBSITE)));
+            }
+        });
+        ((TextView)findViewById(R.id.app_version_textview)).setText(getResources().getText(R.string.app_version)+" "+BuildConfig.VERSION_NAME);
     }
 
 //      we don't need an options menu at the moment

@@ -27,16 +27,28 @@
         android:text="@string/about_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:textSize="18sp"/>
     <Button
         android:id="@+id/see_source_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/see_source"/>
     <Button
-        android:id="@+id/rate_button"
+        android:id="@+id/about_screen_rate_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/rate_this_app"/>
+    <Button
+        android:id="@+id/visit_website_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visit_website"/>
+    <TextView
+        android:id="@+id/app_version_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_version"
+        android:layout_marginTop="6dp"/>
 
 </LinearLayout>

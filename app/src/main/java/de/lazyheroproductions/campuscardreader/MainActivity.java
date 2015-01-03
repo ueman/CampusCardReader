@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
-import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -33,10 +32,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 public class MainActivity extends ActionBarActivity {
+
+
+    private AdView adView;
 
     private NfcAdapter mAdapter;
     private PendingIntent mPendingIntent;
@@ -55,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
         creditTextView = (TextView)findViewById(R.id.credit);
         transactionTextView = (TextView)findViewById(R.id.last_transaction);
 
+
         if(BuildConfig.DEBUG) {
             Log.i(this.getClass().getName(), "received intent on create");
         }
@@ -69,9 +79,40 @@ public class MainActivity extends ActionBarActivity {
         mFilters = new IntentFilter[]{nfcTech};
         mTechLists = new String[][] {
                 new String[] { IsoDep.class.getName() },
-                {NfcA.class.getName()},
-                {NdefFormatable.class.getName()}
+                {NfcA.class.getName()}
         };
+
+        //adview related stuff
+//        adView = (AdView) this.findViewById(R.id.adView);
+        setUpAdview();
+    }
+
+    private void setUpAdview() {
+        // Create the adView.
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.SMART_BANNER);
+        adView.setAdUnitId(Config.AD_UNIT_ID);
+        adView.setVisibility(View.GONE);
+        ((LinearLayout) findViewById(R.id.main_layout)).addView(adView);
+        // Initiate a generic request.
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(Config.MEMOPAD)
+                .addTestDevice(Config.NEXUS)
+                .addTestDevice(Config.LIFETAB)
+                .build();
+        // Load the adView with the ad request.
+        adView.setAdListener(new AdListener() {
+            public void onAdFailedToLoad(int errorCode) {
+                adView.setVisibility(View.GONE);
+            }
+
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+        });
+        adView.loadAd(adRequest);
     }
 
     @Override
@@ -85,9 +126,10 @@ public class MainActivity extends ActionBarActivity {
 
     private void startNfcIntentService(Intent intent){
         // as far as I can tell is a double check with
-        // "android.nfc.action.TECH_DISCOVERED".equals(intent.getAction()) || "android.nfc.action.TAG_DISCOVERED".equals(intent.getAction())
+        // NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction()) || NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())
         // unnecessary, but take this as an assumption
-        if(intent.hasExtra(NfcAdapter.EXTRA_TAG)){
+//        if(intent.hasExtra(NfcAdapter.EXTRA_TAG)){
+        if(NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())){
             Intent newIntent = new Intent(getApplicationContext(), CardReaderIntentService.class);
             newIntent.putExtra(NfcAdapter.EXTRA_TAG, intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
             startService(newIntent);
@@ -102,6 +144,7 @@ public class MainActivity extends ActionBarActivity {
             mAdapter.enableForegroundDispatch(this, mPendingIntent, mFilters,
                     mTechLists);
         }
+        adView.resume();
     }
 
     @Override
@@ -111,6 +154,13 @@ public class MainActivity extends ActionBarActivity {
         if (mAdapter != null){
             mAdapter.disableForegroundDispatch(this);
         }
+        adView.pause();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        adView.destroy();
     }
 
     @Override
@@ -136,17 +186,20 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            if(!intent.getBooleanExtra(CardReaderIntentService.ERROR,true)) {
+            if(!intent.getBooleanExtra(CardReaderIntentService.UNKNOWN_ERROR,true)) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.new_card_was_read), Toast.LENGTH_SHORT).show();
                 // update textviews to represent the received data
                 creditTextView.setText(getResources().getText(R.string.credit) + " " + intent.getStringExtra(CardReaderIntentService.CREDIT));
                 transactionTextView.setText(getResources().getText(R.string.last_transaction) + " " + intent.getStringExtra(CardReaderIntentService.LAST_TRANSACTION));
+                findViewById(R.id.put_card_to_device_textview).setVisibility(View.GONE);
                 if(BuildConfig.DEBUG) {
                     Log.d(this.getClass().getName(), "Got message");
                 }
-            }else{
+            }else if(intent.getBooleanExtra(CardReaderIntentService.UNKNOWN_ERROR,true)){
                 // there was an error while reading the nfc tag, show it to the user
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.failed_to_read_tag), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.failed_to_read_card), Toast.LENGTH_SHORT).show();
+            }else if(intent.getBooleanExtra(CardReaderIntentService.UNKNOWN_CAMPUS_CARD_ERROR,true)){
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.unknown_card_was_read), Toast.LENGTH_SHORT).show();
             }
         }
     };

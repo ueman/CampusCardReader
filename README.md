@@ -7,6 +7,7 @@ Currently supported are the following CampusCards:
 
 HS Osnabrueck
 Universität Osnabrueck
+Universität Leipzig
 
 
 In theory the universitys contained in the following link should also work:

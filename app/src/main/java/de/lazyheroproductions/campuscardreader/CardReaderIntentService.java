@@ -32,8 +32,11 @@ public class CardReaderIntentService extends IntentService {
     public static final String CAMPUS_CARD_INTENT = "campusCardIntent";
     public static final String CREDIT = "credit";
     public static final String LAST_TRANSACTION = "lastTransaction";
-    public static final String ERROR = "error";
-    private static final String FORMAT_TYPE = "%.2f\u20AC"; // two numbers after the comma and a €
+    public static final String UNKNOWN_ERROR = "error";
+    private boolean unknownErrorBool = false;
+    public static final String UNKNOWN_CAMPUS_CARD_ERROR = "unknownCampusCardError";
+    private boolean unknownCampusCardErrorBool = false;
+    private static final String FORMAT_TYPE = "%.2f\u20AC"; // two numbers after the comma and a €-sign
 
     // commands which needs to be send to the nfc tag
     private final byte[] selectAid = {(byte)90, (byte)95, (byte)-124, (byte)21};      //select application command
@@ -77,6 +80,12 @@ public class CardReaderIntentService extends IntentService {
             if(BuildConfig.DEBUG) {
                 Log.e(this.getClass().getName(), e.getMessage());
             }
+            unknownErrorBool = true;
+        }catch(NullPointerException e){
+            if(BuildConfig.DEBUG) {
+                Log.e(this.getClass().getName(), e.getMessage());
+            }
+            unknownCampusCardErrorBool = true;
         }
 
         // send the gathered data back to the activity
@@ -88,9 +97,10 @@ public class CardReaderIntentService extends IntentService {
         if(creditBytes!= null && lastTransactionBytes != null && creditBytes[0] == 0 && lastTransactionBytes[0] == 0){
             intent.putExtra(CREDIT, formatCredit(creditBytes));
             intent.putExtra(LAST_TRANSACTION, formatTransaction(lastTransactionBytes));
-            intent.putExtra(ERROR, false);
+            intent.putExtra(UNKNOWN_ERROR, unknownErrorBool);
         }else{
-            intent.putExtra(ERROR, true);
+            intent.putExtra(UNKNOWN_ERROR, unknownErrorBool);
+            intent.putExtra(UNKNOWN_CAMPUS_CARD_ERROR, unknownCampusCardErrorBool);
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }

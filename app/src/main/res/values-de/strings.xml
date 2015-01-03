@@ -18,12 +18,17 @@
     <string name="hello_world">Hallo Welt!</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über diese App</string>
+    <string name="title_activity_about">Über diese App</string>
     <string name="credit">Guthaben:</string>
     <string name="last_transaction">Letzte Transaktion:</string>
-    <string name="failed_to_read_tag">Lesen der CampusCard ist fehlgeschlagen</string>
+    <string name="failed_to_read_card">Lesen der CampusCard ist fehlgeschlagen</string>
+    <string name="unknown_card_was_read">Eine unbekannte CampusCard wurde gelesen</string>
     <string name="new_card_was_read">CampusCard wurde gelesen</string>
     <string name="about_text">Diese App ist Open Source. Klick auf den unteren Knopf um den Quelltext zu sehen.</string>
     <string name="see_source">Quelltext anschauen</string>
     <string name="rate_this_app">Bewerte diese App</string>
+    <string name="put_card_to_device">CampusCard an das Gerät halten</string>
+    <string name="visit_website">Website öffnen</string>
+    <string name="app_version">App-Version:</string>
 
 </resources>
