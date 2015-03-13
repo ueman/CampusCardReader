@@ -16,21 +16,27 @@
 
 package de.lazyheroproductions.campuscardreader;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 
 public class AboutActivity extends ActionBarActivity {
 
+    private static final String LICENSE_FILE_PATH = "file:///android_asset/license.html";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // set an on click listener for the see_source_button
         findViewById(R.id.see_source_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,31 +64,35 @@ public class AboutActivity extends ActionBarActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.AUTHOR_WEBSITE)));
             }
         });
-        ((TextView)findViewById(R.id.app_version_textview)).setText(getResources().getText(R.string.app_version)+" "+BuildConfig.VERSION_NAME);
+        findViewById(R.id.reset_database_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreditDatabase cDb = new CreditDatabase(getApplicationContext());
+                cDb.resetDatabase();
+            }
+        });
+        ((TextView)findViewById(R.id.app_version_textview)).setText(getResources().getText(R.string.app_version) + " " + BuildConfig.VERSION_NAME);
+        findViewById(R.id.license_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLicenseClick();
+            }
+        });
     }
 
-//      we don't need an options menu at the moment
-//      and we don't need to handle clicks on the options menu
+    private void onLicenseClick(){
+        WebView wv = new WebView(this);
+        wv.loadUrl(LICENSE_FILE_PATH);
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_about, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle(R.string.license);
+        dialog.setView(wv);
+        dialog.setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.show();
+    }
 }

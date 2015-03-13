@@ -30,5 +30,33 @@
     <string name="put_card_to_device">CampusCard an das Gerät halten</string>
     <string name="visit_website">Website öffnen</string>
     <string name="app_version">App-Version:</string>
+    <string name="title_activity_statistic">Statistik</string>
+    <string name="action_statistic">Statistik</string>
+    <string name="reset_database">Daten löschen</string>
+    <string name="save">Speichern</string>
 
+    <!--nfc related stuff-->
+    <string name="nfc_settings">NFC-Einstellungen</string>
+    <string name="no">Nein</string>
+    <string name="nfc_is_turned_off">NFC ist ausgeschaltet</string>
+    <string name="turn_on_nfc_message">Ohne NFC funktioniert diese App nicht. Möchten Sie NFC einschalten?</string>
+
+    <string name="no_data_to_show">Keine Daten vorhanden</string>
+
+    <!--graph strings-->
+    <string name="transaction_history">Ausgabenverlauf</string>
+    <string name="credit_history">Guthabenverlauf</string>
+    <string name="average_chart_headline">Durchschnittswerte</string>
+    <string name="average_credit">Durchschnittliches Guthaben</string>
+    <string name="average_transactions">Durchschnittliche Ausgaben</string>
+    <string name="all_time_spendings">Gesamtausgaben</string>
+    <string name="spending_limit">Ausgabenlimit</string>
+
+    <!--rating strings-->
+    <string name="do_you_want_to_rate_this_app">Du scheinst diese App zu mögen. Möchtest du sie bewerten? Eine gute Bewertung hilft dabei diese App zu verbessern!</string>
+    <string name="yes_i_love_it">Bewerten!</string>
+    <string name="no_dont_ask_me_again">Niemals</string>
+
+    <string name="license">Open Source Lizenzen</string>
+    <string name="close">Schließen</string>
 </resources>
