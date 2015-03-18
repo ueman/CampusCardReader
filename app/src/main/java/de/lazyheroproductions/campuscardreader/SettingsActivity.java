@@ -18,24 +18,32 @@ package de.lazyheroproductions.campuscardreader;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class AboutActivity extends ActionBarActivity {
+public class SettingsActivity extends ActionBarActivity {
 
     private static final String LICENSE_FILE_PATH = "file:///android_asset/license.html";
+    private static final String SHARED_PREFERENCES_KEY = "unitSharedPreferences";
+    private static final String CURRENCY_UNIT_KEY = "unit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // set an on click listener for the see_source_button
         findViewById(R.id.see_source_button).setOnClickListener(new View.OnClickListener() {
@@ -78,6 +86,23 @@ public class AboutActivity extends ActionBarActivity {
                 onLicenseClick();
             }
         });
+
+        ((EditText)findViewById(R.id.currency_edittext)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                SettingsActivity.saveUnit(getApplicationContext(), s.toString());
+            }
+        });
     }
 
     private void onLicenseClick(){
@@ -95,4 +120,18 @@ public class AboutActivity extends ActionBarActivity {
         });
         dialog.show();
     }
+
+    public static void saveUnit(Context activityContext, String unitString){
+        SharedPreferences sharedPref = activityContext.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(CURRENCY_UNIT_KEY, unitString);
+        editor.apply();
+        Toast.makeText(activityContext,activityContext.getString(R.string.saved),Toast.LENGTH_SHORT).show();
+    }
+
+    public static String getUnit(Context activityContext){
+        SharedPreferences sharedPref = activityContext.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        return sharedPref.getString(CURRENCY_UNIT_KEY, activityContext.getString(R.string.currency));
+    }
+
 }

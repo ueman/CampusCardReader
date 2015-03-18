@@ -10,11 +10,11 @@ Universität Osnabrueck
 Universität Leipzig
 
 
-In theory the universitys contained in the following link should also work:
+In theory the universities contained in the following link should also work:
 http://www.intercard.org/de/referenzen/referenzen.html
 
 However some other CampusCards which are produced by Intercard may or may not work.
 
 //TODO
 ================
-+ you can't read a campuscard if the app isn't open - has to be fixed
++ find a way to read everything on the card, e.g. name,... (contact me if you happen to know how it works)

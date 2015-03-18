@@ -34,6 +34,9 @@
     <string name="action_statistic">Statistik</string>
     <string name="reset_database">Daten löschen</string>
     <string name="save">Speichern</string>
+    <string name="currency_unit">Währungseinheit</string>
+    <string name="saved">Gespeichert</string>
+    <string name="currency">€</string>
 
     <!--nfc related stuff-->
     <string name="nfc_settings">NFC-Einstellungen</string>

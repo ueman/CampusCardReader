@@ -271,7 +271,7 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
                 .setAxisBorderValues(minMaxStep[0],minMaxStep[1], 2) // TODO compute this numbers somehow :D
-                .setLabelsMetric("€")
+                .setLabelsMetric(SettingsActivity.getUnit(this))
                 .show();
     }
 
@@ -286,7 +286,7 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
             dataSet.addPoint(getResources().getString(R.string.no_data_to_show),0f);
         }
         dataSet.setDots(true)
-                .setSmooth(true)
+                .setSmooth(false)
                 .setDotsColor(this.getResources().getColor(R.color.indigo_primary)) //line_bg
                 .setDotsRadius(Tools.fromDpToPx(5))
                 .setDotsStrokeThickness(Tools.fromDpToPx(2))
@@ -309,7 +309,7 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
                 .setAxisBorderValues(minMaxStep[0],minMaxStep[1], 2) // TODO compute this numbers somehow :D
-                .setLabelsMetric("€")
+                .setLabelsMetric(SettingsActivity.getUnit(this))
                 .show();
     }
 
@@ -343,7 +343,7 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
                 .setXLabels(XController.LabelPosition.OUTSIDE)
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
-                .setLabelsMetric("€")
+                .setLabelsMetric(SettingsActivity.getUnit(this))
                 .setBorderSpacing(Tools.fromDpToPx(40))
                 .show();
     }
@@ -471,10 +471,10 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
 
         switch(item.getItemId()){
             case R.id.action_settings:
-                startActivity(new Intent(this, AboutActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             default:
-                startActivity(new Intent(this, AboutActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
 //        return super.onOptionsItemSelected(item);

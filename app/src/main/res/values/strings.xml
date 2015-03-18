@@ -31,6 +31,9 @@
     <string name="action_statistic">Statistic</string>
     <string name="reset_database">Reset Database</string>
     <string name="save">Save</string>
+    <string name="currency_unit">Currency</string>
+    <string name="saved">Saved</string>
+    <string name="currency">$</string>
 
     <!-- nfc related stuff -->
     <string name="nfc_settings">NFC-Settings</string>

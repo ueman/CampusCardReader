@@ -58,8 +58,6 @@ public class CreditDatabase extends SQLiteOpenHelper {
     }
 
     public void addEntry(double credit, double lastTransaction, long date, String additionalInfo){
-        // TODO Check for duplicated entries
-        // sort by date asc/desc to get the latest 7 entries
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -87,19 +85,19 @@ public class CreditDatabase extends SQLiteOpenHelper {
                 cData.addInfos(cursor.getString(ADDITIONAL_INFO_COLUMN_ID));
             } while (cursor.moveToNext()); // Move Cursor to the next row
         }
-        // TODO select sum throws an exception if there are no rows to select from; should be fixed
-        cursor = db.rawQuery("SELECT SUM(" + CREDIT + ") FROM " + DB_NAME, null);
+        cursor.close();
+        cursor = db.rawQuery("SELECT TOTAL(" + CREDIT + ") FROM " + DB_NAME, null);
         if(cursor.moveToFirst())
         {
             cData.setSumCredit(cursor.getFloat(0));
         }
-        // TODO select sum throws an exception if there are no rows to select from; should be fixed
-        cursor = db.rawQuery("SELECT SUM(" + LAST_TRANSACTION + ") FROM " + DB_NAME, null);
+        cursor.close();
+        cursor = db.rawQuery("SELECT TOTAL(" + LAST_TRANSACTION + ") FROM " + DB_NAME, null);
         if(cursor.moveToFirst())
         {
             cData.setSumTransactions(cursor.getFloat(0));
         }
-
+        cursor.close();
         db.close();
         return cData;
     }
