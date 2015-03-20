@@ -1,0 +1,75 @@
+<!--    Copyright 2014 Jonas Uekoetter                                         -->
+
+<!--    Licensed under the Apache License,Version2.0(the"License");            -->
+<!--    you may not use this file except in compliance with the License.       -->
+<!--    You may obtain a copy of the License at                                -->
+
+<!--    http://www.apache.org/licenses/LICENSE-2.0                             -->
+
+<!--    Unless required by applicable law or agreed to in writing,software     -->
+<!--    distributed under the License is distributed on an"AS IS"BASIS,        -->
+<!--    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied.-->
+<!--    See the License for the specific language governing permissions and    -->
+<!--    limitations under the License.                                         -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="de.lazyheroproductions.campuscardreader.SettingsActivity"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <EditText
+        android:id="@+id/currency_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/currency_unit"/>
+
+    <Button
+        android:id="@+id/reset_database_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_database"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:text="@string/about_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textSize="18sp"/>
+    <Button
+        android:id="@+id/see_source_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/see_source"/>
+    <Button
+        android:id="@+id/about_screen_rate_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rate_this_app"/>
+    <Button
+        android:id="@+id/visit_website_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visit_website"/>
+
+    <Button
+        android:id="@+id/license_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/license"/>
+
+    <TextView
+        android:id="@+id/app_version_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_version"
+        android:layout_marginTop="6dp"/>
+
+
+</LinearLayout>

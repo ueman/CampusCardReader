@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2014 Jonas Uekoetter -->
+<!-- Licensed under the Apache License,Version2.0(the"License"); -->
+<!-- you may not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- Unless required by applicable law or agreed to in writing,software -->
+<!-- distributed under the License is distributed on an"AS IS"BASIS, -->
+<!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied. -->
+<!-- See the License for the specific language governing permissions and -->
+<!-- limitations under the License. -->
+<resources>
+
+    <string name="app_name">CampusCardReader</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About this app</string>
+    <string name="title_activity_about">About</string>
+    <string name="credit">Credit:</string>
+    <string name="last_transaction">Last Transaction:</string>
+    <string name="failed_to_read_card">Failed to read the CampusCard</string>
+    <string name="unknown_card_was_read">Unknown CampusCard</string>
+    <string name="new_card_was_read">A new CampusCard was read</string>
+    <string name="about_text">This app ist Open Source. Click on the button below to look at its source code.</string>
+    <string name="see_source">Look at the source</string>
+    <string name="rate_this_app">Rate this app!</string>
+    <string name="put_card_to_device">Tap your device on the CampusCard</string>
+    <string name="visit_website">Visit website</string>
+    <string name="app_version">App-Version:</string>
+    <string name="title_activity_statistic">Statistic</string>
+    <string name="action_statistic">Statistic</string>
+    <string name="reset_database">Reset Database</string>
+    <string name="save">Save</string>
+    <string name="currency_unit">Currency</string>
+    <string name="saved">Saved</string>
+    <string name="currency">$</string>
+
+    <!-- nfc related stuff -->
+    <string name="nfc_settings">NFC-Settings</string>
+    <string name="no">No</string>
+    <string name="nfc_is_turned_off">NFC is turned off</string>
+    <string name="turn_on_nfc_message">Turn on NFC to use this app</string>
+    <string name="no_data_to_show">No data to show</string>
+
+    <!-- graph strings -->
+    <string name="transaction_history">Transaction history</string>
+    <string name="credit_history">Credit history</string>
+    <string name="average_chart_headline">Average amounts</string>
+    <string name="average_credit">Average credit amount</string>
+    <string name="average_transactions">Average transaction amount</string>
+    <string name="all_time_spendings">All time spendings</string>
+    <string name="spending_limit">Spending limit</string>
+
+    <!--rating strings-->
+    <string name="do_you_want_to_rate_this_app">You seem to like this app. Do you want to rate it? A good review helps to make this app even more awesome!</string>
+    <string name="yes_i_love_it">Rate</string>
+    <string name="no_dont_ask_me_again">Never</string>
+
+    <string name="license">Open Source Licenses</string>
+    <string name="close">Close</string>
+
+</resources>

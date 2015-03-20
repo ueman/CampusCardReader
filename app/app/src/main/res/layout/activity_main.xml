@@ -1,0 +1,191 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="de.lazyheroproductions.campuscardreader.MainActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin">
+
+                <TextView
+                    android:id="@+id/put_card_to_device_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:text="@string/put_card_to_device"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:text="@string/credit"
+                    android:id="@+id/credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:text="@string/last_transaction"
+                    android:id="@+id/last_transaction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"/>
+
+                <Button
+                    android:id="@+id/add_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transaction_history"
+                    android:textSize="19sp"
+                    android:textColor="@color/primary_text"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <com.db.chart.view.LineChartView
+                    xmlns:chart="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/transaction_linechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="2dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@color/purple_primary"
+                    chart:chart_axisBorderSpacing="0dp"
+                    chart:chart_axisColor="@color/white"
+                    chart:chart_labelColor="@color/white"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credit_history"
+                    android:textSize="19sp"
+                    android:textColor="@color/primary_text"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <com.db.chart.view.LineChartView
+                    xmlns:chart="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/credit_linechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="2dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@color/indigo_primary"
+                    chart:chart_axisBorderSpacing="0dp"
+                    chart:chart_axisColor="@color/white"
+                    chart:chart_labelColor="@color/white"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/average_chart_headline"
+                    android:textSize="19sp"
+                    android:textColor="@color/primary_text"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <com.db.chart.view.BarChartView
+                    xmlns:chart="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/average_barchart"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="2dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@color/deep_orange_primary"
+                    chart:chart_axisColor="@color/white"
+                    chart:chart_labelColor="@color/white"
+                    chart:chart_axisBorderSpacing="30dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/all_time_spendings"
+                        android:textSize="19sp"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/all_time_spendings_textview"
+                        android:textSize="19sp"
+                        android:textColor="@color/primary_text"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="8dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

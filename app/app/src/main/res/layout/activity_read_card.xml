@@ -1,0 +1,67 @@
+<!--    Copyright 2014 Jonas Uekoetter                                         -->
+
+<!--    Licensed under the Apache License,Version2.0(the"License");            -->
+<!--    you may not use this file except in compliance with the License.       -->
+<!--    You may obtain a copy of the License at                                -->
+
+<!--    http://www.apache.org/licenses/LICENSE-2.0                             -->
+
+<!--    Unless required by applicable law or agreed to in writing,software     -->
+<!--    distributed under the License is distributed on an"AS IS"BASIS,        -->
+<!--    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied.-->
+<!--    See the License for the specific language governing permissions and    -->
+<!--    limitations under the License.                                         -->
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/put_card_to_device_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/put_card_to_device"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:visibility="visible"/>
+
+        <TextView
+            android:text="@string/credit"
+            android:id="@+id/credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:text="@string/last_transaction"
+            android:id="@+id/last_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"/>
+
+    </LinearLayout>
+
+</LinearLayout>

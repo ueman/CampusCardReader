@@ -1,33 +1,22 @@
-apply plugin: 'com.android.application'
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
 
-    defaultConfig {
-        applicationId "de.lazyheroproductions.campuscardreader"
-        minSdkVersion 15
-        targetSdkVersion 21
-        versionCode 5
-        versionName "1.2.0"
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationIdSuffix ".debug"
-        }
 
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.google.android.gms:play-services-ads:6.5.87'
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
 }

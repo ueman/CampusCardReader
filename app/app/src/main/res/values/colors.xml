@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#259b24</color>
+    <color name="primary_dark">#0a7e07</color>
+    <color name="accent">#ff4081</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="white">#ffffff</color>
+    <color name="background_grey">#FFEEEEEE</color>
+    
+    <!--line chart colors-->
+    <!--primary as background and primary dark as grid-->
+    <color name="green_primary">#4CAF50</color>
+    <color name="green_primary_dark">#388E3C</color>
+    <color name="indigo_primary">#3F51B5</color>
+    <color name="indigo_primary_dark">#303F9F</color>
+    <color name="purple_primary">#9C27B0</color>
+    <color name="purple_primary_dark">#7B1FA2</color>
+    <color name="deep_orange_primary">#FF5722</color>
+    <color name="deep_orange_primary_dark">#E64A19</color>
+    <color name="deep_orange_300">#FF8A65</color>
+    <!--line chart-->
+    <color name="line_bg">#00bba7</color>
+    <color name="line_grid">#00a694</color>
+    <color name="line">#ffffff</color>
+    <color name="line_fill">#30ffffff</color>
+    <color name="line_tooltip">#ffffff</color>
+    
+    
+</resources>
