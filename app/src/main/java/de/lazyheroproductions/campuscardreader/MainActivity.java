@@ -44,7 +44,7 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.Date;
 
-public class MainActivity extends ActionBarActivity implements ReadCardFragment.OnAddNewDataListener{
+public class MainActivity extends ActionBarActivity{
 
     private AdView adView;
     private NfcAdapter mAdapter;
@@ -66,34 +66,24 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
     private CreditDatabase cDb;
     private CreditData cData;
 
-    // TODO handle application communication properly
-    // TODO reverse order of data in credit data object -> arrayUtils.reverse
-    // Fragments are currently unused as everything is handled inside the MainActivity
-    // in the future fragments could be used
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if(BuildConfig.DEBUG) {
             Log.i(this.getClass().getName(), "received intent on create");
         }
-
+        cDb = new CreditDatabase(getApplicationContext());
+        setUpLocalBroadCastReceiver();
+        startNfcIntentService(getIntent());
+        setUpReadCardPart();
+        setUpStatistics();
+        ratingCounter();
+        setUpNfcStuff();
         if(!isNfcEnabled()){
             enableNfcDialog();
         }
-        cDb = new CreditDatabase(getApplicationContext());
-
-        setUpLocalBroadCastReceiver();
-        setUpNfcStuff();
-        startNfcIntentService(getIntent());
         setUpAdView();
-        ratingCounter();
-        // TODO only open database once here
-
-        setUpReadCardPart();
-        setUpStatistics();
     }
 
     private void ratingCounter(){
@@ -155,39 +145,37 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
     }
 
     private boolean isNfcEnabled(){
-        NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
-        NfcAdapter adapter = manager.getDefaultAdapter();
+        NfcAdapter adapter = ((NfcManager) getSystemService(Context.NFC_SERVICE)).getDefaultAdapter();
         return (adapter != null && adapter.isEnabled());
     }
 
     private void enableNfcDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getResources().getString(R.string.turn_on_nfc_message))
-                .setTitle(getResources().getString(R.string.nfc_is_turned_off));
-        builder.setPositiveButton(R.string.nfc_settings, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                if (android.os.Build.VERSION.SDK_INT >= 16) {
-                    startActivity(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS));
-                } else {
-                    startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+            .setTitle(getResources().getString(R.string.nfc_is_turned_off))
+            .setPositiveButton(R.string.nfc_settings, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if (android.os.Build.VERSION.SDK_INT >= 16) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS));
+                        } else {
+                            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+                        }
+                    }
+                })
+            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // nothing to do here
                 }
-            }
-        });
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // nothing to see here
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+            })
+            .create().show();
     }
 
     private void setUpAdView() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.SMART_BANNER);
         adView.setAdUnitId(Config.AD_UNIT_ID);
+        ((LinearLayout)findViewById(R.id.main_layout)).addView(adView);
         adView.setVisibility(View.GONE);
-        ((LinearLayout) findViewById(R.id.main_layout)).addView(adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice(Config.MEMOPAD)
@@ -195,10 +183,13 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
                 .addTestDevice(Config.LIFETAB)
                 .build();
         adView.setAdListener(new AdListener() {
+
+            @Override
             public void onAdFailedToLoad(int errorCode) {
                 adView.setVisibility(View.GONE);
             }
 
+            @Override
             public void onAdLoaded() {
                 adView.setVisibility(View.VISIBLE);
             }
@@ -218,8 +209,9 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
         setUpAllTimeSpendings();
     }
 
-    public void updateStatistics(CreditData cData){
-        this.cData = cData;
+    public void updateStatistics(){
+        cDb.addEntry(credit, lastTransaction, getDate(), "");
+        this.cData = cDb.getData();
         // update all the charts!
         setUpAllTimeSpendings();
         averageBarChart.reset();
@@ -354,7 +346,7 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onAddNewData();
+                updateStatistics();
                 v.setEnabled(false);
             }
         });
@@ -365,6 +357,9 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
         transactionTextView.setText(getResources().getText(R.string.last_transaction) + " " + format(lastTransaction));
         findViewById(R.id.add_button).setEnabled(true);
         findViewById(R.id.put_card_to_device_textview).setVisibility(View.GONE);
+        findViewById(R.id.credit).setVisibility(View.VISIBLE);
+        findViewById(R.id.last_transaction).setVisibility(View.VISIBLE);
+        findViewById(R.id.add_button).setVisibility(View.VISIBLE);
     }
 
     private String format(double d){
@@ -478,15 +473,5 @@ public class MainActivity extends ActionBarActivity implements ReadCardFragment.
                 return true;
         }
 //        return super.onOptionsItemSelected(item);
-    }
-
-    //OnAddNewDataListener method
-    @Override
-    public void onAddNewData() {
-        //TODO make it async
-        // add data to database
-        cDb.addEntry(credit, lastTransaction, getDate(),"");
-        updateStatistics(cDb.getData());
-
     }
 }

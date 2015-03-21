@@ -34,7 +34,7 @@ public class CreditData{
         for (int i = 0; i <credits.size(); i++) {
             result[i] = credits.get(i);
         }
-        return result;
+        return reverse(result);
     }
 
     public void addCredit(float credits) {
@@ -46,7 +46,7 @@ public class CreditData{
         for (int i = 0; i <transactions.size(); i++) {
             result[i] = transactions.get(i);
         }
-        return result;
+        return reverse(result);
     }
 
     public void addTransaction(float transactions) {
@@ -58,7 +58,7 @@ public class CreditData{
         for (int i = 0; i <dates.size(); i++) {
             result[i] = dates.get(i);
         }
-        return result;
+        return reverse(result);
     }
 
     public void addDate(long dates) {
@@ -70,7 +70,7 @@ public class CreditData{
         for (int i = 0; i <datesHumanReadable.size(); i++) {
             result[i] = datesHumanReadable.get(i);
         }
-        return result;
+        return reverse(result);
     }
 
     public void addDateHumanReadable(String datesHumanReadable) {
@@ -82,7 +82,7 @@ public class CreditData{
         for (int i = 0; i <infos.size(); i++) {
             result[i] = infos.get(i);
         }
-        return result;
+        return reverse(result);
     }
 
     public void addInfos(String infos) {
@@ -113,4 +113,54 @@ public class CreditData{
         return getSumCredit()/getEntries();
     }
 
+    private float[] reverse(float[] array) {
+        if (array == null) {
+            return array;
+        }
+        int i = 0;
+        int j = array.length - 1;
+        float tmp;
+        while (j > i) {
+            tmp = array[j];
+            array[j] = array[i];
+            array[i] = tmp;
+            j--;
+            i++;
+        }
+        return array;
+    }
+
+    private long[] reverse(long[] array) {
+        if (array == null) {
+            return array;
+        }
+        int i = 0;
+        int j = array.length - 1;
+        long tmp;
+        while (j > i) {
+            tmp = array[j];
+            array[j] = array[i];
+            array[i] = tmp;
+            j--;
+            i++;
+        }
+        return array;
+    }
+
+    public String[] reverse(String[] array) {
+        if (array == null) {
+            return array;
+        }
+        int i = 0;
+        int j = array.length - 1;
+        String tmp;
+        while (j > i) {
+            tmp = array[j];
+            array[j] = array[i];
+            array[i] = tmp;
+            j--;
+            i++;
+        }
+        return array;
+    }
 }

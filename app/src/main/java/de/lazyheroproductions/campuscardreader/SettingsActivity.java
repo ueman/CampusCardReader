@@ -110,15 +110,15 @@ public class SettingsActivity extends ActionBarActivity {
         wv.loadUrl(LICENSE_FILE_PATH);
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle(R.string.license);
-        dialog.setView(wv);
-        dialog.setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        dialog.show();
+        dialog.setTitle(R.string.license)
+            .setView(wv)
+            .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                     dialogInterface.dismiss();
+                }
+            })
+            .show();
     }
 
     public static void saveUnit(Context activityContext, String unitString){
@@ -130,8 +130,7 @@ public class SettingsActivity extends ActionBarActivity {
     }
 
     public static String getUnit(Context activityContext){
-        SharedPreferences sharedPref = activityContext.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-        return sharedPref.getString(CURRENCY_UNIT_KEY, activityContext.getString(R.string.currency));
+        return activityContext.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE).getString(CURRENCY_UNIT_KEY, activityContext.getString(R.string.currency));
     }
 
 }

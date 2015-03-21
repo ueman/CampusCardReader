@@ -21,11 +21,8 @@ public class CreditDatabase extends SQLiteOpenHelper {
     private static final String DATE = "date";
     private static final String DATE_LONG = "dateLong";
     private static final String ADDITIONAL_INFO = "additionalInfo";
-    private static final String SELECT_EVERYTHING_CLAUSE = "SELECT  * FROM ";
-    private static final String DROP_TABLES = "DROP TABLE IF EXISTS ";
-    private static final String ORDER_BY = " ORDER BY ";
-    private static final String DESC = " DESC";
-    private static final String LIMIT = " LIMIT ";
+    private static final String DROP_TABLES = "DROP TABLE IF EXISTS";
+    private static final String LIMIT = "7";
     private static final int ID_COLUMN_ID = 0;
     private static final int CREDIT_COLUMN_ID = 1;
     private static final int LAST_TRANSACTION_COLUMN_ID = 2;
@@ -73,8 +70,7 @@ public class CreditDatabase extends SQLiteOpenHelper {
 
     public CreditData getData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String selectQuery = SELECT_EVERYTHING_CLAUSE+DB_NAME+ORDER_BY+DATE_LONG+DESC+LIMIT+7;
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DB_NAME + " ORDER BY ? DESC LIMIT ?", new String[]{DATE_LONG, LIMIT});
         CreditData cData = new CreditData((int)DatabaseUtils.queryNumEntries(db, DB_NAME));
         if (cursor.moveToFirst()) {
             do {
@@ -83,19 +79,19 @@ public class CreditDatabase extends SQLiteOpenHelper {
                 cData.addDate(cursor.getLong(DATE_LONG_COLUMN_ID));
                 cData.addDateHumanReadable(cursor.getString(DATE_COLUMN_ID));
                 cData.addInfos(cursor.getString(ADDITIONAL_INFO_COLUMN_ID));
-            } while (cursor.moveToNext()); // Move Cursor to the next row
+            } while (cursor.moveToNext());
         }
         cursor.close();
         cursor = db.rawQuery("SELECT TOTAL(" + CREDIT + ") FROM " + DB_NAME, null);
         if(cursor.moveToFirst())
         {
-            cData.setSumCredit(cursor.getFloat(0));
+            cData.setSumCredit(cursor.getFloat(0)); // needs to be zero because that's the position of scalar statements
         }
         cursor.close();
         cursor = db.rawQuery("SELECT TOTAL(" + LAST_TRANSACTION + ") FROM " + DB_NAME, null);
         if(cursor.moveToFirst())
         {
-            cData.setSumTransactions(cursor.getFloat(0));
+            cData.setSumTransactions(cursor.getFloat(0)); // needs to be zero because that's the position of scalar statements
         }
         cursor.close();
         db.close();
