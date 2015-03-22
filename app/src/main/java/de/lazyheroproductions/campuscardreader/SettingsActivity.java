@@ -29,6 +29,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ public class SettingsActivity extends ActionBarActivity {
     private static final String LICENSE_FILE_PATH = "file:///android_asset/license.html";
     private static final String SHARED_PREFERENCES_KEY = "unitSharedPreferences";
     private static final String CURRENCY_UNIT_KEY = "unit";
+    private static final String ORDER_KEY = "order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class SettingsActivity extends ActionBarActivity {
             }
         });
 
+        ((EditText)findViewById(R.id.currency_edittext)).setText(getUnit(this));
         ((EditText)findViewById(R.id.currency_edittext)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -101,6 +105,17 @@ public class SettingsActivity extends ActionBarActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 SettingsActivity.saveUnit(getApplicationContext(), s.toString());
+            }
+        });
+
+        CheckBox graphOrderCheckBox = (CheckBox)findViewById(R.id.graph_order_checkbox);
+        if(isOrderByOldestFirst(this)){
+            graphOrderCheckBox.setChecked(true);
+        }
+        ((CheckBox)findViewById(R.id.graph_order_checkbox)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    saveOrder(getApplicationContext(),b);
             }
         });
     }
@@ -122,15 +137,29 @@ public class SettingsActivity extends ActionBarActivity {
     }
 
     public static void saveUnit(Context activityContext, String unitString){
-        SharedPreferences sharedPref = activityContext.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getPrefs(activityContext).edit();
         editor.putString(CURRENCY_UNIT_KEY, unitString);
         editor.apply();
         Toast.makeText(activityContext,activityContext.getString(R.string.saved),Toast.LENGTH_SHORT).show();
     }
 
     public static String getUnit(Context activityContext){
-        return activityContext.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE).getString(CURRENCY_UNIT_KEY, activityContext.getString(R.string.currency));
+        return getPrefs(activityContext).getString(CURRENCY_UNIT_KEY, activityContext.getString(R.string.currency));
+    }
+
+    public static void saveOrder(Context activityContext, boolean orderByOldestFirst){
+        SharedPreferences.Editor editor = getPrefs(activityContext).edit();
+        editor.putBoolean(ORDER_KEY, orderByOldestFirst);
+        editor.apply();
+        Toast.makeText(activityContext,activityContext.getString(R.string.saved),Toast.LENGTH_SHORT).show();
+    }
+
+    public static boolean isOrderByOldestFirst(Context activityContext){
+        return getPrefs(activityContext).getBoolean(ORDER_KEY, true);
+    }
+
+    private static SharedPreferences getPrefs(Context c){
+        return c.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
     }
 
 }

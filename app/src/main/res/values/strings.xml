@@ -34,6 +34,7 @@
     <string name="currency_unit">Currency</string>
     <string name="saved">Saved</string>
     <string name="currency">$</string>
+    <string name="graph_order">Show oldest entries first</string>
 
     <!-- nfc related stuff -->
     <string name="nfc_settings">NFC-Settings</string>

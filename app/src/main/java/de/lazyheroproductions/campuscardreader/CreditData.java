@@ -1,6 +1,7 @@
 package de.lazyheroproductions.campuscardreader;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CreditData{
     private int entries; // number of entries in the arrays
@@ -11,6 +12,7 @@ public class CreditData{
     private ArrayList<String> infos;
     private float sumCredit;
     private float sumTransactions;
+    private boolean reverseOrder = false;
 
     public CreditData(int arrayLength){
         entries = arrayLength;
@@ -34,7 +36,10 @@ public class CreditData{
         for (int i = 0; i <credits.size(); i++) {
             result[i] = credits.get(i);
         }
-        return reverse(result);
+        if(reverseOrder) {
+            reverse(result);
+        }
+        return result;
     }
 
     public void addCredit(float credits) {
@@ -46,7 +51,10 @@ public class CreditData{
         for (int i = 0; i <transactions.size(); i++) {
             result[i] = transactions.get(i);
         }
-        return reverse(result);
+        if(reverseOrder) {
+            reverse(result);
+        }
+        return result;
     }
 
     public void addTransaction(float transactions) {
@@ -58,7 +66,10 @@ public class CreditData{
         for (int i = 0; i <dates.size(); i++) {
             result[i] = dates.get(i);
         }
-        return reverse(result);
+        if(reverseOrder) {
+            reverse(result);
+        }
+        return result;
     }
 
     public void addDate(long dates) {
@@ -70,7 +81,10 @@ public class CreditData{
         for (int i = 0; i <datesHumanReadable.size(); i++) {
             result[i] = datesHumanReadable.get(i);
         }
-        return reverse(result);
+        if(reverseOrder) {
+            reverse(result);
+        }
+        return result;
     }
 
     public void addDateHumanReadable(String datesHumanReadable) {
@@ -82,7 +96,10 @@ public class CreditData{
         for (int i = 0; i <infos.size(); i++) {
             result[i] = infos.get(i);
         }
-        return reverse(result);
+        if(reverseOrder) {
+            reverse(result);
+        }
+        return result;
     }
 
     public void addInfos(String infos) {
@@ -113,9 +130,9 @@ public class CreditData{
         return getSumCredit()/getEntries();
     }
 
-    private float[] reverse(float[] array) {
+    private void reverse(float[] array) {
         if (array == null) {
-            return array;
+            return;
         }
         int i = 0;
         int j = array.length - 1;
@@ -127,12 +144,11 @@ public class CreditData{
             j--;
             i++;
         }
-        return array;
     }
 
-    private long[] reverse(long[] array) {
+    private void reverse(long[] array) {
         if (array == null) {
-            return array;
+            return;
         }
         int i = 0;
         int j = array.length - 1;
@@ -144,12 +160,11 @@ public class CreditData{
             j--;
             i++;
         }
-        return array;
     }
 
-    public String[] reverse(String[] array) {
+    public void reverse(String[] array) {
         if (array == null) {
-            return array;
+            return;
         }
         int i = 0;
         int j = array.length - 1;
@@ -161,6 +176,29 @@ public class CreditData{
             j--;
             i++;
         }
-        return array;
+    }
+
+    public void setReverseOrder(boolean b){
+        this.reverseOrder = !b;
+    }
+
+    public CreditData getRandom(){
+        int lengthOfRandomData = getDatesHumanReadable().length;
+        if(lengthOfRandomData != 0) {
+            Random r = new Random();
+            ArrayList<Float> imFloatingAway = new ArrayList<>();
+            for (int i = 0; i < lengthOfRandomData; i++) {
+                imFloatingAway.add((float) r.nextInt(20));
+            }
+            credits = imFloatingAway;
+            ArrayList<Float> nowMyHeadHurts = new ArrayList<>();
+            for (int i = 0; i < lengthOfRandomData; i++) {
+                nowMyHeadHurts.add((float) r.nextInt(20));
+            }
+            transactions = nowMyHeadHurts;
+            sumCredit = r.nextInt(100);
+            sumTransactions = r.nextInt(100);
+        }
+        return this;
     }
 }

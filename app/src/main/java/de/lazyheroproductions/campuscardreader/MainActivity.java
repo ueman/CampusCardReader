@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
@@ -41,10 +42,11 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.squareup.seismic.ShakeDetector;
 
 import java.util.Date;
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends ActionBarActivity implements ShakeDetector.Listener{
 
     private AdView adView;
     private NfcAdapter mAdapter;
@@ -84,6 +86,9 @@ public class MainActivity extends ActionBarActivity{
             enableNfcDialog();
         }
         setUpAdView();
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        ShakeDetector sd = new ShakeDetector(this);
+        sd.start(sensorManager);
     }
 
     private void ratingCounter(){
@@ -210,8 +215,21 @@ public class MainActivity extends ActionBarActivity{
     }
 
     public void updateStatistics(){
-        cDb.addEntry(credit, lastTransaction, getDate(), "");
         this.cData = cDb.getData();
+        cData.setReverseOrder(SettingsActivity.isOrderByOldestFirst(this));
+        // update all the charts!
+        setUpAllTimeSpendings();
+        averageBarChart.reset();
+        setUpAverageBarChart();
+        creditLineChart.reset();
+        setUpCreditLineChart();
+        transactionLineChart.reset();
+        setUpTransactionLineChart();
+    }
+
+    public void updateStatistics(CreditData creditData){
+        this.cData = creditData;
+        cData.setReverseOrder(SettingsActivity.isOrderByOldestFirst(this));
         // update all the charts!
         setUpAllTimeSpendings();
         averageBarChart.reset();
@@ -346,6 +364,7 @@ public class MainActivity extends ActionBarActivity{
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cDb.addEntry(credit, lastTransaction, getDate(), "");
                 updateStatistics();
                 v.setEnabled(false);
             }
@@ -375,6 +394,7 @@ public class MainActivity extends ActionBarActivity{
                     mTechLists);
         }
         adView.resume();
+        updateStatistics();
     }
 
     @Override
@@ -473,5 +493,10 @@ public class MainActivity extends ActionBarActivity{
                 return true;
         }
 //        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void hearShake(){
+        updateStatistics(cData.getRandom());
     }
 }

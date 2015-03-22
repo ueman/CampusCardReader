@@ -29,6 +29,12 @@
         android:layout_height="wrap_content"
         android:hint="@string/currency_unit"/>
 
+    <CheckBox
+        android:id="@+id/graph_order_checkbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/graph_order"/>
+
     <Button
         android:id="@+id/reset_database_button"
         android:layout_width="match_parent"

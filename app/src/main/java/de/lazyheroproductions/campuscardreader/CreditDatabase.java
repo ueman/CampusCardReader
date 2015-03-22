@@ -49,8 +49,7 @@ public class CreditDatabase extends SQLiteOpenHelper {
 
     public void resetDatabase(){
         SQLiteDatabase database = this.getWritableDatabase();
-        String query = DROP_TABLES + DB_NAME;
-        database.execSQL(query);
+        database.execSQL(DROP_TABLES + " " + DB_NAME);
         onCreate(database);
     }
 
