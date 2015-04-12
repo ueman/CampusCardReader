@@ -44,6 +44,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.squareup.seismic.ShakeDetector;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class MainActivity extends ActionBarActivity implements ShakeDetector.Listener{
@@ -280,8 +281,8 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
                 .setXLabels(XController.LabelPosition.OUTSIDE)
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
-                .setAxisBorderValues(minMaxStep[0],minMaxStep[1], 2) // TODO compute this numbers somehow :D
-                .setLabelsMetric(SettingsActivity.getUnit(this))
+                .setAxisBorderValues(minMaxStep[0], minMaxStep[1], 2) // TODO compute this numbers somehow :D
+                .setLabelsFormat(new DecimalFormat("##'"+SettingsActivity.getUnit(this)+"'"))
                 .show();
     }
 
@@ -319,7 +320,7 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
                 .setAxisBorderValues(minMaxStep[0],minMaxStep[1], 2) // TODO compute this numbers somehow :D
-                .setLabelsMetric(SettingsActivity.getUnit(this))
+                .setLabelsFormat(new DecimalFormat("##'"+SettingsActivity.getUnit(this)+"'"))
                 .show();
     }
 
@@ -353,7 +354,7 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
                 .setXLabels(XController.LabelPosition.OUTSIDE)
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
-                .setLabelsMetric(SettingsActivity.getUnit(this))
+                .setLabelsFormat(new DecimalFormat("##'"+SettingsActivity.getUnit(this)+"'"))
                 .setBorderSpacing(Tools.fromDpToPx(40))
                 .show();
     }
