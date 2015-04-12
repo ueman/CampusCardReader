@@ -18,3 +18,8 @@ However some other CampusCards which are produced by Intercard may or may not wo
 //TODO
 ================
 + find a way to read everything on the card, e.g. name,... (contact me if you happen to know how it works)
+
+
+Compile Instructions
+================
+just change the config file to include your devices and your admob adunit id
