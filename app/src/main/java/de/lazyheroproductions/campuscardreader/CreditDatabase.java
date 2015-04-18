@@ -69,7 +69,9 @@ public class CreditDatabase extends SQLiteOpenHelper {
 
     public CreditData getData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DB_NAME + " ORDER BY ? DESC LIMIT ?", new String[]{DATE_LONG, LIMIT});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DB_NAME + " ORDER BY "+DATE_LONG+" DESC LIMIT "+LIMIT, null);
+        // this query has no string parameter because it breaks the application.
+        // at least if the limit gets paramterized
         CreditData cData = new CreditData((int)DatabaseUtils.queryNumEntries(db, DB_NAME));
         if (cursor.moveToFirst()) {
             do {
@@ -82,15 +84,13 @@ public class CreditDatabase extends SQLiteOpenHelper {
         }
         cursor.close();
         cursor = db.rawQuery("SELECT TOTAL(" + CREDIT + ") FROM " + DB_NAME, null);
-        if(cursor.moveToFirst())
-        {
-            cData.setSumCredit(cursor.getFloat(0)); // needs to be zero because that's the position of scalar statements
+        if(cursor.moveToFirst()){
+            cData.setSumCredit(cursor.getFloat(0));
         }
         cursor.close();
         cursor = db.rawQuery("SELECT TOTAL(" + LAST_TRANSACTION + ") FROM " + DB_NAME, null);
-        if(cursor.moveToFirst())
-        {
-            cData.setSumTransactions(cursor.getFloat(0)); // needs to be zero because that's the position of scalar statements
+        if(cursor.moveToFirst()){
+            cData.setSumTransactions(cursor.getFloat(0));
         }
         cursor.close();
         db.close();
