@@ -145,9 +145,6 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
     }
 
     private void updateStatistics(){
-        if(BuildConfig.DEBUG) {
-            Log.i(this.getClass().getName(), "getting new data");
-        }
         this.cData = cDb.getData();
         refreshViews();
     }
@@ -158,9 +155,6 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
     }
 
     private void refreshViews(){
-        if(BuildConfig.DEBUG) {
-            Log.i(this.getClass().getName(), "refreshing views");
-        }
         cData.setReverseOrder(SettingsActivity.isOrderByOldestFirst(this));
         setUpAllTimeSpendings();
         averageBarChart.reset();
@@ -295,10 +289,7 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cDb.addEntry(credit, lastTransaction, getDate(), "");
-                if(BuildConfig.DEBUG) {
-                    Log.i(this.getClass().getName(), credit+" "+lastTransaction+" "+ getDate());
-                }
+                cDb.addEntry(credit, lastTransaction, new Date().getTime(), "");
                 updateStatistics();
                 v.setEnabled(false);
             }
@@ -366,10 +357,6 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
             newIntent.putExtra(NfcAdapter.EXTRA_TAG, intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
             startService(newIntent);
         }
-    }
-
-    private long getDate(){
-        return new Date().getTime();
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
