@@ -62,6 +62,8 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
     private CreditDatabase cDb;
     private CreditData cData;
 
+    private boolean isActiv = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -320,6 +322,7 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
         }
         adView.resume();
         updateStatistics();
+        isActiv = true;
     }
 
     @Override
@@ -330,12 +333,14 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
             mAdapter.disableForegroundDispatch(this);
         }
         adView.pause();
+        isActiv = false;
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
         adView.destroy();
+        isActiv = false;
     }
 
     @Override
@@ -418,7 +423,9 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
     @Override
     public void hearShake(){
         // easter egg
-        Toast.makeText(this, R.string.easter_egg, Toast.LENGTH_SHORT).show();
-        updateStatistics(cData.getRandom());
+        if(isActiv) {
+            Toast.makeText(this, R.string.easter_egg, Toast.LENGTH_SHORT).show();
+            updateStatistics(cData.getRandom());
+        }
     }
 }
