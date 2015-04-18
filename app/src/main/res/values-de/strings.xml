@@ -63,4 +63,6 @@
 
     <string name="license">Open Source Lizenzen</string>
     <string name="close">Schließen</string>
+
+    <string name="easter_egg">Du hast das Easter Egg gefunden</string>
 </resources>

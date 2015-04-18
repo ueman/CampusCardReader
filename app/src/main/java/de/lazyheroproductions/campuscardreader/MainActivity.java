@@ -1,24 +1,17 @@
 package de.lazyheroproductions.campuscardreader;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.hardware.SensorManager;
-import android.net.Uri;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcManager;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.NfcA;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -79,55 +72,17 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
         cDb = new CreditDatabase(getApplicationContext());
         setUpLocalBroadCastReceiver();
         startNfcIntentService(getIntent());
-        setUpReadCardPart();
+        setUpAddDataThingies();
         setUpStatistics();
-        ratingCounter();
-        setUpNfcStuff();
-        if(!isNfcEnabled()){
-            enableNfcDialog();
+        Helper.ratingCounter(this);
+        if(!Helper.isNfcEnabled(this)){
+            Helper.showEnableNfcDialog(this);
         }
+        setUpNfcStuff();
         setUpAdView();
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         ShakeDetector sd = new ShakeDetector(this);
         sd.start(sensorManager);
-    }
-
-    private void ratingCounter(){
-        final String COUNT = "ratingCounter";
-        final String DIALOG_WAS_OPENED = "ratingWasOpened";
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        if(pref.getInt(COUNT, 0)>4 && !pref.getBoolean(DIALOG_WAS_OPENED,false)){
-            pref.edit().putBoolean(DIALOG_WAS_OPENED, true).apply();
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.do_you_want_to_rate_this_app)
-                    .setPositiveButton(R.string.yes_i_love_it, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            rate();
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setNegativeButton(R.string.no_dont_ask_me_again, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }else{
-            pref.edit().putInt(COUNT,pref.getInt(COUNT,0)+1).apply();
-        }
-    }
-
-    private void rate(){
-        Uri uri = Uri.parse(Config.PLAY_STORE_URI + getPackageName());
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        try {
-            startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.WEB_PLAY_STORE_URL + getPackageName())));
-        }
     }
 
     private void setUpLocalBroadCastReceiver(){
@@ -148,32 +103,6 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
                 new String[] { IsoDep.class.getName() },
                 {NfcA.class.getName()}
         };
-    }
-
-    private boolean isNfcEnabled(){
-        NfcAdapter adapter = ((NfcManager) getSystemService(Context.NFC_SERVICE)).getDefaultAdapter();
-        return (adapter != null && adapter.isEnabled());
-    }
-
-    private void enableNfcDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getResources().getString(R.string.turn_on_nfc_message))
-            .setTitle(getResources().getString(R.string.nfc_is_turned_off))
-            .setPositiveButton(R.string.nfc_settings, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    if (android.os.Build.VERSION.SDK_INT >= 16) {
-                            startActivity(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS));
-                        } else {
-                            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
-                        }
-                    }
-                })
-            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // nothing to do here
-                }
-            })
-            .create().show();
     }
 
     private void setUpAdView() {
@@ -215,23 +144,24 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
         setUpAllTimeSpendings();
     }
 
-    public void updateStatistics(){
+    private void updateStatistics(){
+        if(BuildConfig.DEBUG) {
+            Log.i(this.getClass().getName(), "getting new data");
+        }
         this.cData = cDb.getData();
-        cData.setReverseOrder(SettingsActivity.isOrderByOldestFirst(this));
-        // update all the charts!
-        setUpAllTimeSpendings();
-        averageBarChart.reset();
-        setUpAverageBarChart();
-        creditLineChart.reset();
-        setUpCreditLineChart();
-        transactionLineChart.reset();
-        setUpTransactionLineChart();
+        refreshViews();
     }
 
-    public void updateStatistics(CreditData creditData){
+    private void updateStatistics(CreditData creditData){
         this.cData = creditData;
+        refreshViews();
+    }
+
+    private void refreshViews(){
+        if(BuildConfig.DEBUG) {
+            Log.i(this.getClass().getName(), "refreshing views");
+        }
         cData.setReverseOrder(SettingsActivity.isOrderByOldestFirst(this));
-        // update all the charts!
         setUpAllTimeSpendings();
         averageBarChart.reset();
         setUpAverageBarChart();
@@ -359,13 +289,16 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
                 .show();
     }
 
-    private void setUpReadCardPart(){
+    private void setUpAddDataThingies(){
         creditTextView = (TextView) findViewById(R.id.credit);
         transactionTextView = (TextView) findViewById(R.id.last_transaction);
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cDb.addEntry(credit, lastTransaction, getDate(), "");
+                if(BuildConfig.DEBUG) {
+                    Log.i(this.getClass().getName(), credit+" "+lastTransaction+" "+ getDate());
+                }
                 updateStatistics();
                 v.setEnabled(false);
             }
@@ -493,11 +426,12 @@ public class MainActivity extends ActionBarActivity implements ShakeDetector.Lis
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
-//        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void hearShake(){
+        // easter egg
+        Toast.makeText(this, R.string.easter_egg, Toast.LENGTH_SHORT).show();
         updateStatistics(cData.getRandom());
     }
 }
