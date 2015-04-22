@@ -30,7 +30,6 @@
     <string name="title_activity_statistic">Statistic</string>
     <string name="action_statistic">Statistic</string>
     <string name="reset_database">Reset Database</string>
-    <string name="really_delete_data">Do you really want to delete your data?</string>
     <string name="save">Save</string>
     <string name="currency_unit">Currency</string>
     <string name="saved">Saved</string>

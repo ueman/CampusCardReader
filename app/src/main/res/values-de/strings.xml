@@ -32,15 +32,12 @@
     <string name="app_version">App-Version:</string>
     <string name="title_activity_statistic">Statistik</string>
     <string name="action_statistic">Statistik</string>
+    <string name="reset_database">Daten löschen</string>
     <string name="save">Speichern</string>
     <string name="currency_unit">Währungseinheit</string>
     <string name="saved">Gespeichert</string>
     <string name="currency">€</string>
     <string name="graph_order">Zeige alte Einträge zuerst</string>
-
-    <!-- datenbank strings -->
-    <string name="reset_database">Daten löschen</string>
-    <string name="really_delete_data">Möchten Sie wirklich alle Daten löschen?</string>
 
     <!--nfc related stuff-->
     <string name="nfc_settings">NFC-Einstellungen</string>

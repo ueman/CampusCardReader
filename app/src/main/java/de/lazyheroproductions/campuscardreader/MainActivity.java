@@ -13,7 +13,7 @@ import android.nfc.tech.IsoDep;
 import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +40,7 @@ import com.squareup.seismic.ShakeDetector;
 import java.text.DecimalFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements ShakeDetector.Listener{
+public class MainActivity extends ActionBarActivity implements ShakeDetector.Listener{
 
     private AdView adView;
     private NfcAdapter mAdapter;
