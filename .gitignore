@@ -66,3 +66,4 @@ build/
 
 //custom stuff
 Config.java
+app/src/main/java/de/lazyheroproductions/campuscardreader/Config.java
