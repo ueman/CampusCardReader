@@ -63,3 +63,6 @@ gradle.properties
 gradlew
 gradlew.bat
 build/
+
+//custom stuff
+Config.java
