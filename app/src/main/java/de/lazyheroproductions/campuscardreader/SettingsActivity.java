@@ -27,14 +27,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{
@@ -52,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        ((TextView)findViewById(R.id.app_version_textview)).setText(getResources().getText(R.string.app_version) + " " + BuildConfig.VERSION_NAME);
+        ((TextView)findViewById(R.id.app_version_textview)).setText(getString(R.string.app_version) + " " + BuildConfig.VERSION_NAME);
         ((EditText)findViewById(R.id.currency_edittext)).setText(getUnit(this));
         ((EditText)findViewById(R.id.currency_edittext)).addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,14 +90,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v){
-        Log.d(getClass().toString(), "Clicked on "+v.getId());
         switch(v.getId()){
             case R.id.see_source_button: startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.PROJECT_HOME))); break;
             case R.id.visit_website_button: startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.AUTHOR_WEBSITE))); break;
             case R.id.about_screen_rate_button: onRateClick(); break;
             case R.id.reset_database_button: onDeleteDbClick(); break;
             case R.id.license_button: onLicenseClick(); break;
-            case View.NO_ID: break; //do something?
+            case View.NO_ID: break;
         }
     }
 
@@ -116,16 +113,16 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     private void onDeleteDbClick(){
         new AlertDialog.Builder(this)
-                .setTitle(getResources().getString(R.string.reset_database))
-                .setMessage(getResources().getString(R.string.really_delete_data))
-                .setPositiveButton(getResources().getString(R.string.reset_database), new DialogInterface.OnClickListener() {
+                .setTitle(R.string.reset_database)
+                .setMessage(R.string.really_delete_data)
+                .setPositiveButton(R.string.reset_database, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         CreditDatabase cDb = new CreditDatabase(getApplicationContext());
                         cDb.resetDatabase();
                     }
                 })
-                .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -154,7 +151,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         SharedPreferences.Editor editor = getPrefs(activityContext).edit();
         editor.putString(CURRENCY_UNIT_KEY, unitString);
         editor.apply();
-        Toast.makeText(activityContext,activityContext.getString(R.string.saved),Toast.LENGTH_SHORT).show();
     }
 
     public static String getUnit(Context activityContext){
@@ -165,7 +161,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         SharedPreferences.Editor editor = getPrefs(activityContext).edit();
         editor.putBoolean(ORDER_KEY, orderByOldestFirst);
         editor.apply();
-        Toast.makeText(activityContext,activityContext.getString(R.string.saved),Toast.LENGTH_SHORT).show();
     }
 
     public static boolean isOrderByOldestFirst(Context activityContext){

@@ -36,8 +36,8 @@ public class Helper {
 
     public static void showEnableNfcDialog(final Context c){
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        builder.setMessage(c.getResources().getString(R.string.turn_on_nfc_message))
-                .setTitle(c.getResources().getString(R.string.nfc_is_turned_off))
+        builder.setMessage(R.string.turn_on_nfc_message)
+                .setTitle(R.string.nfc_is_turned_off)
                 .setPositiveButton(R.string.nfc_settings, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (android.os.Build.VERSION.SDK_INT >= 16) {
