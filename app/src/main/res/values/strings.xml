@@ -67,6 +67,5 @@
     <string name="close">Close</string>
 
     <string name="easter_egg">Congrats, you\'ve found the easter egg</string>
-    <string name="title_activity_transaction">TransactionActivity</string>
 
 </resources>
