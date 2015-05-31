@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package de.lazyheroproductions.campuscardreader;
+package de.lazyheroproductions.campuscardreader.Logic;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -39,12 +39,12 @@ public class CreditDatabase extends SQLiteOpenHelper {
     private static final String ADDITIONAL_INFO = "additionalInfo";
     private static final String DROP_TABLES = "DROP TABLE IF EXISTS";
     private static final String LIMIT = "7";
-    private static final int ID_COLUMN_ID = 0;
-    private static final int CREDIT_COLUMN_ID = 1;
-    private static final int LAST_TRANSACTION_COLUMN_ID = 2;
-    private static final int DATE_COLUMN_ID = 3;
-    private static final int DATE_LONG_COLUMN_ID = 4;
-    private static final int ADDITIONAL_INFO_COLUMN_ID = 5;
+    public static final int ID_COLUMN_ID = 0;
+    public static final int CREDIT_COLUMN_ID = 1;
+    public static final int LAST_TRANSACTION_COLUMN_ID = 2;
+    public static final int DATE_COLUMN_ID = 3;
+    public static final int DATE_LONG_COLUMN_ID = 4;
+    public static final int ADDITIONAL_INFO_COLUMN_ID = 5;
 
     public CreditDatabase(Context appContext){
         super(appContext, DB_NAME+".db", null, 1);
@@ -118,5 +118,18 @@ public class CreditDatabase extends SQLiteOpenHelper {
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy", Locale.GERMAN);
         d.setTime(date);
         return df.format(d);
+    }
+
+    public Cursor getListCursor(){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        // we need the select id as _id
+        // because the cursoradapter throws an exeption if id isn't called _id
+        Cursor tCursor = db.rawQuery(   "SELECT id as _id, credit, lastTransaction, date, dateLong, additionalInfo " +
+                                        "FROM " + DB_NAME + " " +
+                                        "ORDER BY " + DATE_LONG + " DESC", null);
+        // if we close the connectoin we can't use the cursor :(
+        //db.close();
+        return tCursor;
     }
 }

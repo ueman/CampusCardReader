@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package de.lazyheroproductions.campuscardreader;
+package de.lazyheroproductions.campuscardreader.Logic;
 
 public class DataAnalysisTools {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package de.lazyheroproductions.campuscardreader;
+package de.lazyheroproductions.campuscardreader.UI;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -55,6 +55,15 @@ import com.squareup.seismic.ShakeDetector;
 
 import java.text.DecimalFormat;
 import java.util.Date;
+
+import de.lazyheroproductions.campuscardreader.BuildConfig;
+import de.lazyheroproductions.campuscardreader.Logic.CardReaderIntentService;
+import de.lazyheroproductions.campuscardreader.Config;
+import de.lazyheroproductions.campuscardreader.Logic.CreditData;
+import de.lazyheroproductions.campuscardreader.Logic.CreditDatabase;
+import de.lazyheroproductions.campuscardreader.Logic.DataAnalysisTools;
+import de.lazyheroproductions.campuscardreader.Logic.Helper;
+import de.lazyheroproductions.campuscardreader.R;
 
 public class MainActivity extends AppCompatActivity implements ShakeDetector.Listener{
 
@@ -429,6 +438,9 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
         switch(item.getItemId()){
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.action_go_to_transaction_list:
+                startActivity(new Intent(this, TransactionActivity.class));
                 return true;
             default:
                 startActivity(new Intent(this, SettingsActivity.class));

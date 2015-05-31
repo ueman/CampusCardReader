@@ -9,7 +9,6 @@
 <!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied. -->
 <!-- See the License for the specific language governing permissions and -->
 <!-- limitations under the License. -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.lazyheroproductions.campuscardreader" >
 
@@ -31,36 +30,46 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".UI.SettingsActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".UI.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".UI.MainActivity" />
         </activity>
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
 
-        <service android:name=".CardReaderIntentService" />
+        <service android:name=".Logic.CardReaderIntentService" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_filter" />
+        </activity>
+        <activity
+            android:name=".UI.TransactionActivity"
+            android:label="@string/title_activity_transaction"
+            android:parentActivityName=".UI.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.lazyheroproductions.campuscardreader.UI.MainActivity" />
         </activity>
     </application>
 

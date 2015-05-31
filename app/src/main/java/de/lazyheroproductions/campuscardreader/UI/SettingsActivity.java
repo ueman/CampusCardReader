@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package de.lazyheroproductions.campuscardreader;
+package de.lazyheroproductions.campuscardreader.UI;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -33,6 +33,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import de.lazyheroproductions.campuscardreader.BuildConfig;
+import de.lazyheroproductions.campuscardreader.Config;
+import de.lazyheroproductions.campuscardreader.Logic.CreditDatabase;
+import de.lazyheroproductions.campuscardreader.R;
 
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{

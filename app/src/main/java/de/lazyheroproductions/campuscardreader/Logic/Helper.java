@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package de.lazyheroproductions.campuscardreader;
+package de.lazyheroproductions.campuscardreader.Logic;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -26,6 +26,9 @@ import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.preference.PreferenceManager;
+
+import de.lazyheroproductions.campuscardreader.Config;
+import de.lazyheroproductions.campuscardreader.R;
 
 public class Helper {
 

@@ -36,6 +36,9 @@
     <string name="saved">Saved</string>
     <string name="currency">$</string>
     <string name="graph_order">Show oldest entries first</string>
+    <string name="delete_entry">Delete entry</string>
+    <string name="transaction">Transaction:</string>
+    <string name="all_transactions">See all transactions</string>
 
     <!-- nfc related stuff -->
     <string name="nfc_settings">NFC-Settings</string>
@@ -62,5 +65,6 @@
     <string name="close">Close</string>
 
     <string name="easter_egg">Congrats, you\'ve found the easter egg</string>
+    <string name="title_activity_transaction">TransactionActivity</string>
 
 </resources>

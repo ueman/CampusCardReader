@@ -37,6 +37,9 @@
     <string name="saved">Gespeichert</string>
     <string name="currency">€</string>
     <string name="graph_order">Zeige alte Einträge zuerst</string>
+    <string name="delete_entry">Eintrag löschen</string>
+    <string name="transaction">Ausgabe:</string>
+    <string name="all_transactions">Alle Transaktionen anschauen</string>
 
     <!-- datenbank strings -->
     <string name="reset_database">Daten löschen</string>

@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package de.lazyheroproductions.campuscardreader;
+package de.lazyheroproductions.campuscardreader.Logic;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
+
+import de.lazyheroproductions.campuscardreader.BuildConfig;
 
 public class CardReaderIntentService extends IntentService {
 
