@@ -39,6 +39,8 @@
     <string name="delete_entry">Delete entry</string>
     <string name="transaction">Transaction:</string>
     <string name="all_transactions">See all transactions</string>
+    <string name="delete_this_transaction">Do you really want to delete this transaction?</string>
+    <string name="yes">Yes</string>
 
     <!-- nfc related stuff -->
     <string name="nfc_settings">NFC-Settings</string>

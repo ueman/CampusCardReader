@@ -30,15 +30,6 @@ import de.lazyheroproductions.campuscardreader.R;
 
 public class TransactionCursorAdapter extends CursorAdapter{
 
-    static class ViewHolder {
-        public TextView transaction;
-        public TextView credit;
-        public TextView date;
-        public View deleteEntry;
-    }
-
-    private static  ViewHolder viewHolder;
-
     public TransactionCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
@@ -54,16 +45,14 @@ public class TransactionCursorAdapter extends CursorAdapter{
     // such as setting the text on a TextView.
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
-        viewHolder = new ViewHolder();
-        viewHolder.transaction = (TextView) view.findViewById(R.id.transaction_text);
-        viewHolder.credit = (TextView) view.findViewById(R.id.credit_text);
-        viewHolder.date = (TextView) view.findViewById(R.id.date_text);
-        viewHolder.deleteEntry = view.findViewById(R.id.delete_entry_image);
-        
-        // Extract properties from cursor
-        viewHolder.transaction.setText(viewHolder.transaction.getText() + " "+ cursor.getString(CreditDatabase.LAST_TRANSACTION_COLUMN_ID));
-        viewHolder.credit.setText(viewHolder.credit.getText() + " "+ cursor.getString(CreditDatabase.CREDIT_COLUMN_ID));
-        viewHolder.date.setText(cursor.getString(CreditDatabase.DATE_COLUMN_ID));
+        String unit = SettingsActivity.getUnit(context);
+        ((TextView) view.findViewById(R.id.transaction_text))
+                .setText(context.getString(R.string.transaction)
+                + " " + cursor.getString(CreditDatabase.LAST_TRANSACTION_COLUMN_ID)+unit);
+        ((TextView) view.findViewById(R.id.credit_text))
+                .setText(context.getString(R.string.credit)
+                + " " + cursor.getString(CreditDatabase.CREDIT_COLUMN_ID) + unit);
+        ((TextView) view.findViewById(R.id.date_text)).setText(cursor.getString(CreditDatabase.DATE_COLUMN_ID));
+        ((TextView) view.findViewById(R.id.primary_key)).setText(cursor.getString(CreditDatabase.ID_COLUMN_ID));
     }
 }

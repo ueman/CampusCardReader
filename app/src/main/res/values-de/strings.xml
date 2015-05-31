@@ -40,6 +40,8 @@
     <string name="delete_entry">Eintrag löschen</string>
     <string name="transaction">Ausgabe:</string>
     <string name="all_transactions">Alle Transaktionen anschauen</string>
+    <string name="delete_this_transaction">Möchten Sie diese Transation wirklich löschen?</string>
+    <string name="yes">Ja</string>
 
     <!-- datenbank strings -->
     <string name="reset_database">Daten löschen</string>

@@ -22,6 +22,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -131,5 +132,12 @@ public class CreditDatabase extends SQLiteOpenHelper {
         // if we close the connectoin we can't use the cursor :(
         //db.close();
         return tCursor;
+    }
+
+    public void deleteEntry(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DB_NAME, "id = ?", new String[]{id});
+        db.close();
+        Log.e(this.getClass().toString(),"itme gelöscht");
     }
 }
