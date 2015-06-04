@@ -5,9 +5,10 @@ This is a small application for android which reads some values of CampusCards.
 
 Currently supported are the following CampusCards:
 
-HS Osnabrueck
-Universität Osnabrueck
-Universität Leipzig
+-HS Osnabrueck  
+-Universität Osnabrueck  
+-Universität Leipzig  
+-TU Darmstadt  
 
 
 In theory the universities contained in the following link should also work:
