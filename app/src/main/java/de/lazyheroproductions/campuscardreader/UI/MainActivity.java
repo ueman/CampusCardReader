@@ -57,8 +57,8 @@ import java.text.DecimalFormat;
 import java.util.Date;
 
 import de.lazyheroproductions.campuscardreader.BuildConfig;
-import de.lazyheroproductions.campuscardreader.Logic.CardReaderIntentService;
 import de.lazyheroproductions.campuscardreader.Config;
+import de.lazyheroproductions.campuscardreader.Logic.CardReaderIntentService;
 import de.lazyheroproductions.campuscardreader.Logic.CreditData;
 import de.lazyheroproductions.campuscardreader.Logic.CreditDatabase;
 import de.lazyheroproductions.campuscardreader.Logic.DataAnalysisTools;
@@ -203,20 +203,20 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
         String lineLabels[] = cData.getDatesHumanReadable();
         float lineValues[] = cData.getTransactions();
         int minMaxStep[] = DataAnalysisTools.calculateAxisBorderValuesLineCharts(lineValues);
-        LineSet dataSet = new LineSet();
+        LineSet dataSet;
         if (lineLabels.length != 0 || lineValues.length != 0) {
-            dataSet.addPoints(lineLabels, lineValues);
+            dataSet = new LineSet(lineLabels, lineValues);
         } else {
-            dataSet.addPoint(getResources().getString(R.string.no_data_to_show), 0f);
+            dataSet = new LineSet(new String[]{getResources().getString(R.string.no_data_to_show)}, new float[]{0f});
         }
-        dataSet.setDots(true)
+        dataSet.setColor(this.getResources().getColor(R.color.purple_primary))
+                .setDotsStrokeThickness(Tools.fromDpToPx(2))
+                .setDotsStrokeColor(this.getResources().getColor(R.color.line)) //line
+                .setDotsColor(this.getResources().getColor(R.color.purple_primary)) //line_bg
                 .setSmooth(true)
                 .setDotsColor(this.getResources().getColor(R.color.purple_primary)) //line_bg
                 .setDotsRadius(Tools.fromDpToPx(5))
-                .setDotsStrokeThickness(Tools.fromDpToPx(2))
-                .setDotsStrokeColor(this.getResources().getColor(R.color.line)) //line
-                .setLineColor(this.getResources().getColor(R.color.line)) //line
-                .setLineThickness(Tools.fromDpToPx(3));
+                .setThickness(Tools.fromDpToPx(3));
         transactionLineChart.addData(dataSet);
 
         Paint mLineGridPaint = new Paint();
@@ -241,20 +241,22 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
         String lineLabels[] = cData.getDatesHumanReadable();
         float lineValues[] = cData.getCredits();
         int minMaxStep[] = DataAnalysisTools.calculateAxisBorderValuesLineCharts(lineValues);
-        LineSet dataSet = new LineSet();
+        LineSet dataSet;
         if( lineLabels.length != 0 || lineValues.length != 0) {
-            dataSet.addPoints(lineLabels, lineValues);
+            dataSet = new LineSet(lineLabels, lineValues);
         }else{
-            dataSet.addPoint(getResources().getString(R.string.no_data_to_show),0f);
+            dataSet = new LineSet(new String[]{getResources().getString(R.string.no_data_to_show)},new float[]{0f});
         }
-        dataSet.setDots(true)
-                .setSmooth(false)
-                .setDotsColor(this.getResources().getColor(R.color.indigo_primary)) //line_bg
-                .setDotsRadius(Tools.fromDpToPx(5))
+
+        dataSet.setColor(this.getResources().getColor(R.color.indigo_primary))
                 .setDotsStrokeThickness(Tools.fromDpToPx(2))
                 .setDotsStrokeColor(this.getResources().getColor(R.color.line)) //line
-                .setLineColor(this.getResources().getColor(R.color.line)) //line
-                .setLineThickness(Tools.fromDpToPx(3));
+                .setDotsColor(this.getResources().getColor(R.color.indigo_primary)) //line_bg
+                .setSmooth(true)
+                .setDotsColor(this.getResources().getColor(R.color.indigo_primary)) //line_bg
+                .setDotsRadius(Tools.fromDpToPx(5))
+                .setThickness(Tools.fromDpToPx(3));
+
         creditLineChart.addData(dataSet);
 
         Paint mLineGridPaint = new Paint();
@@ -442,9 +444,7 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
             case R.id.action_go_to_transaction_list:
                 startActivity(new Intent(this, TransactionActivity.class));
                 return true;
-            default:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
+            default: return false;
         }
     }
 
